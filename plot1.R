@@ -1,6 +1,7 @@
 library(tidyverse)
 library(lubridate)
 
+## Load Data
 powerDF <- read_delim("household_power_consumption.txt",
                       delim = ";",
                       na = c("?", "NA"),
@@ -19,10 +20,12 @@ powerDF <- read_delim("household_power_consumption.txt",
     filter(Date == ymd("2007-02-01") | Date == ymd("2007-02-02")) %>%
     mutate(DateTime = ymd_hms(paste(Date, Time)))
 
+## Setup PNG file
 png(filename = "plot1.png",
     width = 480,
     height = 480)
 
+## Create histogram
 hist(powerDF$Global_active_power,
      col = "red",
      main = "Global Active Power",
@@ -30,4 +33,5 @@ hist(powerDF$Global_active_power,
      ylab = "Frequency"
 )
 
+## Close PNG file
 dev.off()
