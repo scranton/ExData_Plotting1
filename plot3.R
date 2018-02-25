@@ -18,16 +18,23 @@ powerDF <- read_delim("household_power_consumption.txt",
     ) %>%
     filter(Date == ymd("2007-02-01") | Date == ymd("2007-02-02")) %>%
     mutate(DateTime = ymd_hms(paste(Date, Time)))
-
-png(filename = "plot1.png",
+    
+png(filename = "plot3.png",
     width = 480,
     height = 480)
 
-hist(powerDF$Global_active_power,
-     col = "red",
-     main = "Global Active Power",
-     xlab = "Global Active Power (kilowatts)",
-     ylab = "Frequency"
+plot(powerDF$DateTime, powerDF$Sub_metering_1,
+     ylim = range(powerDF$Sub_metering_1, powerDF$Sub_metering_2, powerDF$Sub_metering_3),
+     type = "l",
+     ylab = "Energy sub metering",
+     xlab = ""
+)
+lines(powerDF$DateTime, powerDF$Sub_metering_2, col = "red")
+lines(powerDF$DateTime, powerDF$Sub_metering_3, col = "blue")
+legend("topright",
+       legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"),
+       col = c("black", "red", "blue"),
+       lty = 1
 )
 
 dev.off()
